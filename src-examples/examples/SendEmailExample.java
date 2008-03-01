@@ -9,9 +9,9 @@ public class SendEmailExample {
 		// put your e-mail address here
 		final String yourAddress = "guilherme.chapiewski@gmail.com";
 
-		// then, configure your mail server info
+		// configure programatically your mail server info
 		EmailTransportConfiguration.configure("webmail.corp.globo.com", true,
-				false, "gc", "BROOKstone441");
+				false, "", "");
 
 		// and go!
 		new EmailMessage().from("demo@guilhermechapiewski.com").to(yourAddress)
