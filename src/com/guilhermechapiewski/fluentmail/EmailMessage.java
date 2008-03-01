@@ -1,13 +1,25 @@
 package com.guilhermechapiewski.fluentmail;
 
+import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import com.sun.mail.smtp.SMTPTransport;
 
 public class EmailMessage implements Email {
 
 	private static EmailAddressValidator emailAddressValidator = new EmailAddressValidator();
+	private static EmailTransportConfiguration emailTransportConfig = new EmailTransportConfiguration();
 
-	private Set<String> fromAddresses = new HashSet<String>();
+	private String fromAddress;
 	private Set<String> toAddresses = new HashSet<String>();
 	private String subject;
 	private String body;
@@ -15,13 +27,13 @@ public class EmailMessage implements Email {
 	@Override
 	public void send() {
 		validateRequiredInfo();
-		sendUsingMailAPI();
+		validateAddresses();
+		sendMail();
 	}
 
 	protected void validateRequiredInfo() {
-		if (fromAddresses.isEmpty()) {
-			throw new IncompleteEmailException(
-					"Email should have at least one from address");
+		if (fromAddress == null) {
+			throw new IncompleteEmailException("From address cannot be null");
 		}
 		if (toAddresses.isEmpty()) {
 			throw new IncompleteEmailException(
@@ -35,13 +47,57 @@ public class EmailMessage implements Email {
 		}
 	}
 
-	protected void sendUsingMailAPI() {
-		// TODO
+	protected void sendMail() {
+		try {
+			sendMailUsingJavaMailAPI();
+		} catch (Exception e) {
+			throw new EmailTransportException("Email could not be sent: "
+					+ e.getMessage(), e);
+		}
+	}
+
+	protected void sendMailUsingJavaMailAPI() throws AddressException,
+			MessagingException {
+		Properties properties = System.getProperties();
+		properties.put("mail.smtp.host", emailTransportConfig.getSmtpServer());
+		properties.put("mail.smtp.auth", emailTransportConfig
+				.isAuthenticationRequired());
+
+		Session session = Session.getInstance(properties);
+		Message message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(fromAddress));
+
+		for (String to : toAddresses) {
+			message.setRecipients(Message.RecipientType.TO, InternetAddress
+					.parse(to));
+		}
+
+		message.setSubject(subject);
+		message.setText(body);
+		message.setHeader("X-Mailer", "Fluent Mail API");
+		message.setSentDate(Calendar.getInstance().getTime());
+
+		String protocol = "smtp";
+		if (emailTransportConfig.useSecureSmtp()) {
+			protocol = "smtps";
+		}
+
+		SMTPTransport smtpTransport = (SMTPTransport) session
+				.getTransport(protocol);
+		if (emailTransportConfig.isAuthenticationRequired()) {
+			smtpTransport.connect(emailTransportConfig.getSmtpServer(),
+					emailTransportConfig.getUsername(), emailTransportConfig
+							.getPassword());
+		} else {
+			smtpTransport.connect();
+		}
+		smtpTransport.sendMessage(message, message.getAllRecipients());
+		smtpTransport.close();
 	}
 
 	@Override
 	public Email from(String address) {
-		this.fromAddresses.add(address);
+		this.fromAddress = address;
 		return this;
 	}
 
@@ -63,8 +119,8 @@ public class EmailMessage implements Email {
 		return this;
 	}
 
-	public Set<String> getFromAddresses() {
-		return fromAddresses;
+	public String getFromAddress() {
+		return fromAddress;
 	}
 
 	public Set<String> getToAddresses() {
@@ -79,17 +135,14 @@ public class EmailMessage implements Email {
 		return body;
 	}
 
-	@Override
-	public Email validateAddresses() {
-		for (String email : fromAddresses) {
-			if (!emailAddressValidator.validate(email)) {
-				throw new InvalidEmailAddressException(email);
-			}
+	protected Email validateAddresses() {
+		if (!emailAddressValidator.validate(fromAddress)) {
+			throw new InvalidEmailAddressException("From: " + fromAddress);
 		}
 
 		for (String email : toAddresses) {
 			if (!emailAddressValidator.validate(email)) {
-				throw new InvalidEmailAddressException(email);
+				throw new InvalidEmailAddressException("To: " + email);
 			}
 		}
 

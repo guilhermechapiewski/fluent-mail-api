@@ -14,9 +14,5 @@ public interface Email {
 
 	Email withBody(String body);
 
-	Email validateAddresses();
-
-	// Email ignoreInvalidAddresses();
-
 	void send();
 }

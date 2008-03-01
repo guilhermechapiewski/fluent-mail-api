@@ -40,38 +40,6 @@ public class EmailMessageTest {
 	}
 
 	@Test
-	public void should_allow_many_froms() {
-		EmailMessage email = (EmailMessage) new EmailMessage().from("a@a.com")
-				.from("b@b.com").from("c@c.com");
-
-		Set<String> addresses = email.getFromAddresses();
-
-		assertNotNull("Addresses should not be null", addresses);
-		assertEquals("Should have the correct froms quantity", 3, addresses
-				.size());
-		assertTrue("Should contain the specified address", addresses
-				.contains("a@a.com"));
-		assertTrue("Should contain the specified address", addresses
-				.contains("b@b.com"));
-		assertTrue("Should contain the specified address", addresses
-				.contains("c@c.com"));
-	}
-
-	@Test
-	public void should_ignore_repeated_froms() {
-		EmailMessage email = (EmailMessage) new EmailMessage().from("a@a.com")
-				.from("a@a.com").from("a@a.com");
-
-		Set<String> addresses = email.getFromAddresses();
-
-		assertNotNull("Addresses should not be null", addresses);
-		assertEquals("Should have the correct froms quantity", 1, addresses
-				.size());
-		assertTrue("Should contain the specified address", addresses
-				.contains("a@a.com"));
-	}
-
-	@Test
 	public void should_allow_many_tos() {
 		EmailMessage email = (EmailMessage) new EmailMessage().to("a@a.com")
 				.to("b@b.com").to("c@c.com");
@@ -143,34 +111,6 @@ public class EmailMessageTest {
 		} catch (Exception e) {
 			error = true;
 		}
-		assertFalse("Should not throw any exception", error);
-	}
-
-	@Test
-	public void should_not_validate_wrong_email_addresses() {
-		EmailMessage email = (EmailMessage) new EmailMessage();
-
-		boolean error = false;
-		try {
-			email.from("x").validateAddresses();
-		} catch (InvalidEmailAddressException e) {
-			error = true;
-		}
-
-		assertTrue("Should throw exception", error);
-	}
-
-	@Test
-	public void should_validate_correct_email_addresses() {
-		EmailMessage email = (EmailMessage) new EmailMessage();
-
-		boolean error = false;
-		try {
-			email.from("john@doe.com").validateAddresses();
-		} catch (InvalidEmailAddressException e) {
-			error = true;
-		}
-
 		assertFalse("Should not throw any exception", error);
 	}
 
