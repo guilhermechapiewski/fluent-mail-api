@@ -12,6 +12,7 @@ import com.guilhermechapiewski.fluentmail.validation.InvalidEmailAddressExceptio
 public class EmailMessage implements EmailBuilder, Email {
 
 	private static EmailAddressValidator emailAddressValidator = new EmailAddressValidator();
+	private static PostalService postalService = new PostalService();
 
 	private String fromAddress;
 	private Set<String> toAddresses = new HashSet<String>();
@@ -43,7 +44,7 @@ public class EmailMessage implements EmailBuilder, Email {
 
 	protected void sendMessage() {
 		try {
-			new PostalService().send(this);
+			postalService.send(this);
 		} catch (Exception e) {
 			throw new EmailTransportException("Email could not be sent: "
 					+ e.getMessage(), e);
@@ -107,5 +108,9 @@ public class EmailMessage implements EmailBuilder, Email {
 	public static void setEmailAddressValidator(
 			EmailAddressValidator emailAddressValidator) {
 		EmailMessage.emailAddressValidator = emailAddressValidator;
+	}
+
+	public static void setPostalService(PostalService postalService) {
+		EmailMessage.postalService = postalService;
 	}
 }

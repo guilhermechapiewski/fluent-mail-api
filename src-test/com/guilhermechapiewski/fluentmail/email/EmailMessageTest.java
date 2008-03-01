@@ -1,6 +1,10 @@
 package com.guilhermechapiewski.fluentmail.email;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Set;
 
@@ -8,8 +12,6 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import com.guilhermechapiewski.fluentmail.email.EmailBuilder;
-import com.guilhermechapiewski.fluentmail.email.EmailMessage;
 import com.guilhermechapiewski.fluentmail.validation.IncompleteEmailException;
 
 public class EmailMessageTest {
@@ -77,7 +79,7 @@ public class EmailMessageTest {
 
 	@Test
 	public void should_require_minimum_info_to_send_message() {
-		EmailMessage email = (EmailMessage) new EmailMessage();
+		EmailMessage email = new EmailMessage();
 
 		try_to_send_incomplete_mail(email);
 
@@ -120,11 +122,12 @@ public class EmailMessageTest {
 
 	@Test
 	public void should_send_email_using_java_mail_api() {
-		EmailMessage email = (EmailMessage) new EmailMessage().from("root@gc.org").to("john@doe.com").withSubject(
-				"Testing").withBody("FluentMailAPI");
-		
+		EmailMessage email = (EmailMessage) new EmailMessage().from(
+				"root@gc.org").to("john@doe.com").withSubject("Testing")
+				.withBody("FluentMailAPI");
+
 		email.send();
-		
+
 		fail("Not implemented");
 	}
 }

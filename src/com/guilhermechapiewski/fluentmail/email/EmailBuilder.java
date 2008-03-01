@@ -15,6 +15,4 @@ public interface EmailBuilder {
 	EmailBuilder withBody(String body);
 
 	void send();
-	
-	
 }

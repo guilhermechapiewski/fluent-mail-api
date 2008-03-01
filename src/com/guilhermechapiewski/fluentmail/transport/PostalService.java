@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -18,12 +19,22 @@ public class PostalService {
 	private static EmailTransportConfiguration emailTransportConfig = new EmailTransportConfiguration();
 
 	public void send(Email email) throws AddressException, MessagingException {
+		Session session = createSession();
+		Message message = createMessage(session, email);
+		sendMessage(session, message);
+	}
+	
+	protected Session createSession() {
 		Properties properties = System.getProperties();
 		properties.put("mail.smtp.host", emailTransportConfig.getSmtpServer());
 		properties.put("mail.smtp.auth", emailTransportConfig
 				.isAuthenticationRequired());
 
-		Session session = Session.getInstance(properties);
+		return Session.getInstance(properties);
+	}
+
+	protected Message createMessage(Session session, Email email)
+			throws MessagingException {
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(email.getFromAddress()));
 
@@ -37,6 +48,11 @@ public class PostalService {
 		message.setHeader("X-Mailer", "Fluent Mail API");
 		message.setSentDate(Calendar.getInstance().getTime());
 
+		return message;
+	}
+
+	protected void sendMessage(Session session, Message message)
+			throws NoSuchProviderException, MessagingException {
 		String protocol = "smtp";
 		if (emailTransportConfig.useSecureSmtp()) {
 			protocol = "smtps";

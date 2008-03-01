@@ -8,6 +8,10 @@ public interface Email {
 	
 	Set<String> getToAddresses();
 	
+	// Set<String> getCcAddresses();
+	
+	// Set<String> getBccAddresses();
+	
 	String getSubject();
 	
 	String getBody();
