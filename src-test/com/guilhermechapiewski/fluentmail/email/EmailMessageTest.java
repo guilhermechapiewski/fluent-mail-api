@@ -8,7 +8,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import com.guilhermechapiewski.fluentmail.email.Email;
+import com.guilhermechapiewski.fluentmail.email.EmailBuilder;
 import com.guilhermechapiewski.fluentmail.email.EmailMessage;
 import com.guilhermechapiewski.fluentmail.validation.IncompleteEmailException;
 
@@ -19,7 +19,7 @@ public class EmailMessageTest {
 	@Test
 	public void should_send_mail_when_parameters_are_correct() {
 
-		final Email email = context.mock(Email.class);
+		final EmailBuilder email = context.mock(EmailBuilder.class);
 
 		context.checking(new Expectations() {
 			{
