@@ -1,24 +1,25 @@
-package com.guilhermechapiewski.fluentmail.email;
+package com.guilhermechapiewski.fluentmail;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.guilhermechapiewski.fluentmail.api.Email;
 
 public class EmailMessage implements Email {
 
-	Set<String> fromAddresses = new HashSet<String>();
-	Set<String> toAddresses = new HashSet<String>();
-	String subject;
-	String body;
+	private static EmailAddressValidator emailAddressValidator = new EmailAddressValidator();
 
+	private Set<String> fromAddresses = new HashSet<String>();
+	private Set<String> toAddresses = new HashSet<String>();
+	private String subject;
+	private String body;
+	
 	@Override
 	public void send() {
 		validateRequiredInfo();
 		sendUsingMailAPI();
 	}
 
-	private void validateRequiredInfo() {
+	protected void validateRequiredInfo() {
 		if (fromAddresses.isEmpty()) {
 			throw new IncompleteEmailException(
 					"Email should have at least one from address");
@@ -80,8 +81,24 @@ public class EmailMessage implements Email {
 	}
 
 	@Override
-	public Email validateAddresses() {
-		// TODO
-		return null;
+	public Email validateAddresses() throws InvalidEmailAddressException {
+		for (String email : fromAddresses) {
+			if (!emailAddressValidator.validate(email)) {
+				throw new InvalidEmailAddressException(email);
+			}
+		}
+
+		for (String email : toAddresses) {
+			if (!emailAddressValidator.validate(email)) {
+				throw new InvalidEmailAddressException(email);
+			}
+		}
+
+		return this;
+	}
+	
+	public static void setEmailAddressValidator(
+			EmailAddressValidator emailAddressValidator) {
+		EmailMessage.emailAddressValidator = emailAddressValidator;
 	}
 }

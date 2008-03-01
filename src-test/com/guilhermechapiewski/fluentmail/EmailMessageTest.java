@@ -1,4 +1,4 @@
-package com.guilhermechapiewski.fluentmail.email;
+package com.guilhermechapiewski.fluentmail;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,6 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import com.guilhermechapiewski.fluentmail.api.Email;
 
 public class EmailMessageTest {
 
@@ -149,14 +148,35 @@ public class EmailMessageTest {
 	}
 	
 	@Test
-	public void should_validate_email_addresses() {
+	public void should_not_validate_wrong_email_addresses() {
 		EmailMessage email = (EmailMessage) new EmailMessage();
 		
-		email.from("").validateAddresses();
+		boolean error = false;
+		try {
+			email.from("x").validateAddresses();
+		} catch (InvalidEmailAddressException e) {
+			error = true;
+		}
+		
+		assertTrue("Should throw exception", error);
 	}
 	
 	@Test
-	public void should_send_using_mail_api() {
+	public void should_validate_correct_email_addresses() {
+		EmailMessage email = (EmailMessage) new EmailMessage();
+		
+		boolean error = false;
+		try {
+			email.from("john@doe.com").validateAddresses();
+		} catch (InvalidEmailAddressException e) {
+			error = true;
+		}
+		
+		assertFalse("Should not throw any exception", error);
+	}
+	
+	@Test
+	public void should_send_email_using_mail_api() {
 		fail("Not implemented");
 	}
 }
