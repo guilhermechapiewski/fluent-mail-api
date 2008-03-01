@@ -3,7 +3,6 @@ package com.guilhermechapiewski.fluentmail;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class EmailMessage implements Email {
 
 	private static EmailAddressValidator emailAddressValidator = new EmailAddressValidator();
@@ -12,7 +11,7 @@ public class EmailMessage implements Email {
 	private Set<String> toAddresses = new HashSet<String>();
 	private String subject;
 	private String body;
-	
+
 	@Override
 	public void send() {
 		validateRequiredInfo();
@@ -96,7 +95,7 @@ public class EmailMessage implements Email {
 
 		return this;
 	}
-	
+
 	public static void setEmailAddressValidator(
 			EmailAddressValidator emailAddressValidator) {
 		EmailMessage.emailAddressValidator = emailAddressValidator;

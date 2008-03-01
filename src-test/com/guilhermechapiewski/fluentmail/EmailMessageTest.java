@@ -8,7 +8,6 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-
 public class EmailMessageTest {
 
 	Mockery context = new Mockery();
@@ -103,30 +102,30 @@ public class EmailMessageTest {
 		assertTrue("Should contain the specified address", addresses
 				.contains("a@a.com"));
 	}
-	
+
 	@Test
 	public void should_require_minimum_info_to_send_message() {
 		EmailMessage email = (EmailMessage) new EmailMessage();
-		
+
 		try_to_send_incomplete_mail(email);
-		
+
 		email.from("a@a.com");
-		
+
 		try_to_send_incomplete_mail(email);
-		
+
 		email.to("b@b.com");
 
 		try_to_send_incomplete_mail(email);
-		
+
 		email.withSubject("test");
-		
+
 		try_to_send_incomplete_mail(email);
-		
+
 		email.withBody("test");
-		
+
 		try_to_send_complete_mail(email);
 	}
-	
+
 	private void try_to_send_incomplete_mail(EmailMessage email) {
 		boolean error = false;
 		try {
@@ -136,7 +135,7 @@ public class EmailMessageTest {
 		}
 		assertTrue("Should throw exception", error);
 	}
-	
+
 	private void try_to_send_complete_mail(EmailMessage email) {
 		boolean error = false;
 		try {
@@ -146,37 +145,42 @@ public class EmailMessageTest {
 		}
 		assertFalse("Should not throw any exception", error);
 	}
-	
+
 	@Test
 	public void should_not_validate_wrong_email_addresses() {
 		EmailMessage email = (EmailMessage) new EmailMessage();
-		
+
 		boolean error = false;
 		try {
 			email.from("x").validateAddresses();
 		} catch (InvalidEmailAddressException e) {
 			error = true;
 		}
-		
+
 		assertTrue("Should throw exception", error);
 	}
-	
+
 	@Test
 	public void should_validate_correct_email_addresses() {
 		EmailMessage email = (EmailMessage) new EmailMessage();
-		
+
 		boolean error = false;
 		try {
 			email.from("john@doe.com").validateAddresses();
 		} catch (InvalidEmailAddressException e) {
 			error = true;
 		}
-		
+
 		assertFalse("Should not throw any exception", error);
 	}
-	
+
 	@Test
-	public void should_send_email_using_mail_api() {
+	public void should_send_email_using_java_mail_api() {
+		EmailMessage email = (EmailMessage) new EmailMessage().from("root@gc.org").to("john@doe.com").withSubject(
+				"Testing").withBody("FluentMailAPI");
+		
+		email.send();
+		
 		fail("Not implemented");
 	}
 }
