@@ -17,25 +17,30 @@ import com.sun.mail.smtp.SMTPTransport;
 public class PostalService {
 
 	private static EmailTransportConfiguration emailTransportConfig = new EmailTransportConfiguration();
+	private static Session session;
 
 	public void send(Email email) throws AddressException, MessagingException {
-		Session session = createSession();
-		Message message = createMessage(session, email);
-		sendMessage(session, message);
-	}
-	
-	protected Session createSession() {
-		Properties properties = System.getProperties();
-		properties.put("mail.smtp.host", emailTransportConfig.getSmtpServer());
-		properties.put("mail.smtp.auth", emailTransportConfig
-				.isAuthenticationRequired());
-
-		return Session.getInstance(properties);
+		Message message = createMessage(email);
+		send(message);
 	}
 
-	protected Message createMessage(Session session, Email email)
+	protected Session getSession() {
+		if (session == null) {
+			Properties properties = System.getProperties();
+			properties.put("mail.smtp.host", emailTransportConfig
+					.getSmtpServer());
+			properties.put("mail.smtp.auth", emailTransportConfig
+					.isAuthenticationRequired());
+
+			session = Session.getInstance(properties);
+		}
+		
+		return session;
+	}
+
+	protected Message createMessage(Email email)
 			throws MessagingException {
-		Message message = new MimeMessage(session);
+		Message message = new MimeMessage(getSession());
 		message.setFrom(new InternetAddress(email.getFromAddress()));
 
 		for (String to : email.getToAddresses()) {
@@ -51,14 +56,14 @@ public class PostalService {
 		return message;
 	}
 
-	protected void sendMessage(Session session, Message message)
-			throws NoSuchProviderException, MessagingException {
+	protected void send(Message message) throws NoSuchProviderException,
+			MessagingException {
 		String protocol = "smtp";
 		if (emailTransportConfig.useSecureSmtp()) {
 			protocol = "smtps";
 		}
 
-		SMTPTransport smtpTransport = (SMTPTransport) session
+		SMTPTransport smtpTransport = (SMTPTransport) getSession()
 				.getTransport(protocol);
 		if (emailTransportConfig.isAuthenticationRequired()) {
 			smtpTransport.connect(emailTransportConfig.getSmtpServer(),
