@@ -1,4 +1,4 @@
-package com.guilhermechapiewski.fluentmail;
+package com.guilhermechapiewski.fluentmail.validation;
 
 public class IncompleteEmailException extends RuntimeException {
 

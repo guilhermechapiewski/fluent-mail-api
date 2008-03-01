@@ -1,4 +1,5 @@
-package com.guilhermechapiewski.fluentmail;
+package com.guilhermechapiewski.fluentmail.transport;
+
 
 public class EmailTransportConfiguration {
 
@@ -10,7 +11,27 @@ public class EmailTransportConfiguration {
 
 	static {
 		// TODO: try to load config from properties
-		configure("webmail.corp.globo.com", true, false, "gc", "");
+//
+//		Properties properties = new Properties();
+//
+//		InputStream inputStream = getClass().getResourceAsStream(
+//				arquivoProperties + ".properties");
+//
+//		if (inputStream == null) {
+//			inputStream = getClass().getResourceAsStream(
+//					"/" + arquivoProperties + ".properties");
+//		}
+//
+//		try {
+//			properties.load(inputStream);
+//		} catch (IOException e) {
+//			throw new RuntimeException("Impossivel carregar arquivo ["
+//					+ arquivoProperties + ".properties]: " + e.getMessage());
+//		}
+//
+//		return properties;
+
+		// configure("webmail.corp.globo.com", true, false, "gc", "");
 	}
 
 	/**
@@ -65,7 +86,7 @@ public class EmailTransportConfiguration {
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public boolean useSecureSmtp() {
 		return useSecureSmtp;
 	}

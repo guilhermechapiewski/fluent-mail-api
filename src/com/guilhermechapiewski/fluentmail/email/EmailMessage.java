@@ -1,4 +1,4 @@
-package com.guilhermechapiewski.fluentmail;
+package com.guilhermechapiewski.fluentmail.email;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -12,6 +12,11 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.guilhermechapiewski.fluentmail.transport.EmailTransportConfiguration;
+import com.guilhermechapiewski.fluentmail.transport.EmailTransportException;
+import com.guilhermechapiewski.fluentmail.validation.EmailAddressValidator;
+import com.guilhermechapiewski.fluentmail.validation.IncompleteEmailException;
+import com.guilhermechapiewski.fluentmail.validation.InvalidEmailAddressException;
 import com.sun.mail.smtp.SMTPTransport;
 
 public class EmailMessage implements Email {

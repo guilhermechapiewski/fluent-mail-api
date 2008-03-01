@@ -1,4 +1,4 @@
-package com.guilhermechapiewski.fluentmail;
+package com.guilhermechapiewski.fluentmail.transport;
 
 public class EmailTransportException extends RuntimeException {
 	

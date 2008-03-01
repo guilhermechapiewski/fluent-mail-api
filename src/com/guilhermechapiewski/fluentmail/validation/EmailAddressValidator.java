@@ -1,4 +1,4 @@
-package com.guilhermechapiewski.fluentmail;
+package com.guilhermechapiewski.fluentmail.validation;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

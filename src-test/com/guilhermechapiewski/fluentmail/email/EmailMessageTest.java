@@ -1,4 +1,4 @@
-package com.guilhermechapiewski.fluentmail;
+package com.guilhermechapiewski.fluentmail.email;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,10 @@ import java.util.Set;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
+
+import com.guilhermechapiewski.fluentmail.email.Email;
+import com.guilhermechapiewski.fluentmail.email.EmailMessage;
+import com.guilhermechapiewski.fluentmail.validation.IncompleteEmailException;
 
 public class EmailMessageTest {
 

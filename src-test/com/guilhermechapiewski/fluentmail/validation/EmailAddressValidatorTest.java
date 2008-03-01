@@ -1,8 +1,10 @@
-package com.guilhermechapiewski.fluentmail;
+package com.guilhermechapiewski.fluentmail.validation;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.guilhermechapiewski.fluentmail.validation.EmailAddressValidator;
 
 
 public class EmailAddressValidatorTest {
