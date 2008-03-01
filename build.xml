@@ -1,1 +1,18 @@
-<!-- TO DO -->
+<project name="FluentMailAPI" default="main" basedir=".">
+	
+	<target name="main" depends="compile, compile-tests, run-tests, generate-jar">
+	</target>
+	
+	<target name="compile">
+	</target>
+	
+	<target name="compile-tests" depends="compile">
+	</target>
+	
+	<target name="run-tests" depends="compile-tests">
+	</target>
+	
+	<target name="generate-jar" depends="compile">
+	</target>
+	
+</project>
