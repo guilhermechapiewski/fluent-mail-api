@@ -1,6 +1,5 @@
 package examples;
 
-
 import com.guilhermechapiewski.fluentmail.email.EmailMessage;
 import com.guilhermechapiewski.fluentmail.transport.EmailTransportConfiguration;
 
