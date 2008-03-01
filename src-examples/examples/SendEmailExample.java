@@ -18,7 +18,7 @@ public class SendEmailExample {
 		new EmailMessage().from("demo@guilhermechapiewski.com").to(yourAddress)
 				.withSubject("Fluent Mail API").withBody("Demo message").send();
 
-		System.out.println("Message sent!");
+		System.out.println("Check your inbox!");
 
 	}
 }
