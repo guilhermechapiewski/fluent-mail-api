@@ -81,7 +81,7 @@ public class EmailMessage implements Email {
 	}
 
 	@Override
-	public Email validateAddresses() throws InvalidEmailAddressException {
+	public Email validateAddresses() {
 		for (String email : fromAddresses) {
 			if (!emailAddressValidator.validate(email)) {
 				throw new InvalidEmailAddressException(email);
