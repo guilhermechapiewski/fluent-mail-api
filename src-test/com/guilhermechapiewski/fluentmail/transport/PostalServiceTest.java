@@ -117,8 +117,6 @@ public class PostalServiceTest {
 		PostalService postalService = new PostalService();
 		Session session = postalService.getSession();
 
-		System.out.println(session.getProperties());
-
 		assertNotNull("Session cannot be null", session);
 		assertEquals("Should get correct smtp server", SMTP_SERVER, session
 				.getProperty("mail.smtp.host"));
