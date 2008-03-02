@@ -10,13 +10,18 @@ import java.util.Set;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Test;
 
+import com.guilhermechapiewski.fluentmail.transport.PostalService;
+import com.guilhermechapiewski.fluentmail.validation.EmailAddressValidator;
 import com.guilhermechapiewski.fluentmail.validation.IncompleteEmailException;
 
 public class EmailMessageTest {
 
-	Mockery context = new Mockery();
+	Mockery context = new Mockery() {{
+		setImposteriser(ClassImposteriser.INSTANCE);
+	}};
 
 	@Test
 	public void should_send_mail_when_parameters_are_correct() {
@@ -78,8 +83,25 @@ public class EmailMessageTest {
 	}
 
 	@Test
-	public void should_require_minimum_info_to_send_message() {
-		EmailMessage email = new EmailMessage();
+	public void should_require_minimum_info_to_send_message() throws Exception {
+		final PostalService postalService = context.mock(PostalService.class);
+		final EmailAddressValidator emailAddressValidator = context.mock(EmailAddressValidator.class);
+		final EmailMessage email = new EmailMessage();
+
+		EmailMessage.setPostalService(postalService);
+		EmailMessage.setEmailAddressValidator(emailAddressValidator);
+		
+		context.checking(new Expectations() {
+			{
+				one(postalService).send(email);
+
+				one(emailAddressValidator).validate("a@a.com");
+				will(returnValue(true));
+				
+				one(emailAddressValidator).validate("b@b.com");
+				will(returnValue(true));
+			}
+		});
 
 		try_to_send_incomplete_mail(email);
 

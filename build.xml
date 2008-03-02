@@ -1,18 +1,79 @@
 <project name="FluentMailAPI" default="main" basedir=".">
 	
-	<target name="main" depends="compile, compile-tests, run-tests, generate-jar">
+	<target name="main" depends="clean, setup, compile, compile-tests, run-tests, generate-dist-jar, clean" />
+	
+	<target name="clean">
+		<echo message="Cleaning temp directory" />
+		<delete dir="temp" />
 	</target>
 	
-	<target name="compile">
+	<target name="setup">
+		<echo message="Setting up environment" />
+		<mkdir dir="temp" />
+		<mkdir dir="temp/classes" />
+		<mkdir dir="temp/classes-test" />
+		<mkdir dir="dist" />
+	</target>
+	
+	<target name="compile" depends="clean, setup">
+		<echo message="Compiling src" />
+		<javac target="1.5" source="1.5" srcdir="src" destdir="temp/classes" optimize="on" deprecation="on" debug="true">
+			<classpath>
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
 	</target>
 	
 	<target name="compile-tests" depends="compile">
+		<echo message="Compiling tests" />
+		<javac target="1.5" source="1.5" srcdir="src-test" destdir="temp/classes-test" optimize="on" debug="true">
+			<classpath>
+				<pathelement path="temp/classes" />
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="lib-test">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
 	</target>
 	
 	<target name="run-tests" depends="compile-tests">
+		<echo message="Running tests" />
+		<junit fork="yes" printsummary="yes" showoutput="true" haltonfailure="yes">
+					
+			<classpath>
+				<pathelement path="temp/classes" />
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="lib-test">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+
+			<batchtest haltonfailure="yes">
+				<fileset dir="temp/classes-test">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
 	</target>
 	
-	<target name="generate-jar" depends="compile">
+	<target name="generate-dist-jar" depends="compile">
+		<echo message="Generating jar" />
+		<jar destfile="dist/fluent-mail-api.jar">
+			<fileset dir="temp/classes">
+				<include name="**/*.class"/>
+			</fileset>
+			<fileset dir=".">
+				<include name="LICENSE.txt"/>
+				<include name="NOTICE.txt"/>
+			</fileset>
+		</jar>
 	</target>
 	
 </project>
