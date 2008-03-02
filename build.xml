@@ -43,10 +43,11 @@
 	
 	<target name="run-tests" depends="compile-tests">
 		<echo message="Running tests" />
-		<junit fork="yes" printsummary="yes" showoutput="true" haltonfailure="yes">
+		<junit printsummary="yes" showoutput="true" haltonfailure="yes">
 					
 			<classpath>
 				<pathelement path="temp/classes" />
+				<pathelement path="temp/classes-test" />
 				<fileset dir="lib">
 					<include name="**/*.jar" />
 				</fileset>
@@ -55,7 +56,7 @@
 				</fileset>
 			</classpath>
 
-			<batchtest haltonfailure="yes">
+			<batchtest fork="yes" haltonfailure="yes">
 				<fileset dir="temp/classes-test">
 					<include name="**/*Test.class" />
 				</fileset>
