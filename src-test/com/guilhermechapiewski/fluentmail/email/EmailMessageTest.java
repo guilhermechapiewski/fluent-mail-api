@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Set;
 
@@ -19,9 +18,11 @@ import com.guilhermechapiewski.fluentmail.validation.IncompleteEmailException;
 
 public class EmailMessageTest {
 
-	Mockery context = new Mockery() {{
-		setImposteriser(ClassImposteriser.INSTANCE);
-	}};
+	Mockery context = new Mockery() {
+		{
+			setImposteriser(ClassImposteriser.INSTANCE);
+		}
+	};
 
 	@Test
 	public void should_send_mail_when_parameters_are_correct() {
@@ -85,19 +86,20 @@ public class EmailMessageTest {
 	@Test
 	public void should_require_minimum_info_to_send_message() throws Exception {
 		final PostalService postalService = context.mock(PostalService.class);
-		final EmailAddressValidator emailAddressValidator = context.mock(EmailAddressValidator.class);
+		final EmailAddressValidator emailAddressValidator = context
+				.mock(EmailAddressValidator.class);
 		final EmailMessage email = new EmailMessage();
 
 		EmailMessage.setPostalService(postalService);
 		EmailMessage.setEmailAddressValidator(emailAddressValidator);
-		
+
 		context.checking(new Expectations() {
 			{
 				one(postalService).send(email);
 
 				one(emailAddressValidator).validate("a@a.com");
 				will(returnValue(true));
-				
+
 				one(emailAddressValidator).validate("b@b.com");
 				will(returnValue(true));
 			}
@@ -143,13 +145,22 @@ public class EmailMessageTest {
 	}
 
 	@Test
-	public void should_send_email_using_java_mail_api() {
-		EmailMessage email = (EmailMessage) new EmailMessage().from(
+	public void should_send_email_using_java_mail_api() throws Exception {
+		final EmailMessage email = (EmailMessage) new EmailMessage().from(
 				"root@gc.org").to("john@doe.com").withSubject("Testing")
 				.withBody("FluentMailAPI");
 
-		email.send();
+		final PostalService postalService = context.mock(PostalService.class);
 
-		fail("Not implemented");
+		EmailMessage.setPostalService(postalService);
+		EmailMessage.setEmailAddressValidator(new EmailAddressValidator());
+
+		context.checking(new Expectations() {
+			{
+				one(postalService).send(email);
+			}
+		});
+
+		email.send();
 	}
 }
