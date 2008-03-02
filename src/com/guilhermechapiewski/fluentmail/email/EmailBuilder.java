@@ -6,9 +6,9 @@ public interface EmailBuilder {
 
 	EmailBuilder to(String address);
 
-	// EmailBuilder cc(String address);
+	EmailBuilder cc(String address);
 
-	// EmailBuilder bcc(String address);
+	EmailBuilder bcc(String address);
 
 	EmailBuilder withSubject(String subject);
 

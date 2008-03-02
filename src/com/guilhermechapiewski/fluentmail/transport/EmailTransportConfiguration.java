@@ -1,7 +1,16 @@
 package com.guilhermechapiewski.fluentmail.transport;
 
+import java.io.InputStream;
+import java.util.Properties;
 
 public class EmailTransportConfiguration {
+
+	private static final String PROPERTIES_FILE = "fluent-mail-api.properties";
+	private static final String KEY_SMTP_SERVER = "smtp.server";
+	private static final String KEY_AUTH_REQUIRED = "auth.required";
+	private static final String KEY_USE_SECURE_SMTP = "use.secure.smtp";
+	private static final String KEY_USERNAME = "smtp.username";
+	private static final String KEY_PASSWORD = "smtp.password";
 
 	private static String smtpServer = "";
 	private static boolean authenticationRequired = false;
@@ -10,28 +19,37 @@ public class EmailTransportConfiguration {
 	private static String password = null;
 
 	static {
-		// TODO: try to load config from properties
-//
-//		Properties properties = new Properties();
-//
-//		InputStream inputStream = getClass().getResourceAsStream(
-//				arquivoProperties + ".properties");
-//
-//		if (inputStream == null) {
-//			inputStream = getClass().getResourceAsStream(
-//					"/" + arquivoProperties + ".properties");
-//		}
-//
-//		try {
-//			properties.load(inputStream);
-//		} catch (IOException e) {
-//			throw new RuntimeException("Impossivel carregar arquivo ["
-//					+ arquivoProperties + ".properties]: " + e.getMessage());
-//		}
-//
-//		return properties;
+		Properties properties = loadProperties();
 
-		// configure("webmail.corp.globo.com", true, false, "gc", "");
+		String smtpServer = properties.getProperty(KEY_SMTP_SERVER);
+		boolean authenticationRequired = Boolean
+				.parseBoolean(KEY_AUTH_REQUIRED);
+		boolean useSecureSmtp = Boolean.parseBoolean(KEY_USE_SECURE_SMTP);
+		String username = properties.getProperty(KEY_USERNAME);
+		String password = properties.getProperty(KEY_PASSWORD);
+
+		configure(smtpServer, authenticationRequired, useSecureSmtp, username,
+				password);
+	}
+	
+	private static Properties loadProperties() {
+		Properties properties = new Properties();
+
+		InputStream inputStream = EmailTransportConfiguration.class
+				.getResourceAsStream(PROPERTIES_FILE);
+
+		if (inputStream == null) {
+			inputStream = EmailTransportConfiguration.class
+					.getResourceAsStream("/" + PROPERTIES_FILE);
+		}
+
+		try {
+			properties.load(inputStream);
+		} catch (Exception e) {
+			// Properties file not found, no problem.
+		}
+
+		return properties;
 	}
 
 	/**

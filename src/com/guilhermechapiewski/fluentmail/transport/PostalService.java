@@ -34,18 +34,27 @@ public class PostalService {
 
 			session = Session.getInstance(properties);
 		}
-		
+
 		return session;
 	}
 
-	protected Message createMessage(Email email)
-			throws MessagingException {
+	protected Message createMessage(Email email) throws MessagingException {
 		Message message = new MimeMessage(getSession());
 		message.setFrom(new InternetAddress(email.getFromAddress()));
 
 		for (String to : email.getToAddresses()) {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress
 					.parse(to));
+		}
+
+		for (String cc : email.getCcAddresses()) {
+			message.setRecipients(Message.RecipientType.CC, InternetAddress
+					.parse(cc));
+		}
+
+		for (String bcc : email.getBccAddresses()) {
+			message.setRecipients(Message.RecipientType.BCC, InternetAddress
+					.parse(bcc));
 		}
 
 		message.setSubject(email.getSubject());
@@ -58,13 +67,8 @@ public class PostalService {
 
 	protected void send(Message message) throws NoSuchProviderException,
 			MessagingException {
-		String protocol = "smtp";
-		if (emailTransportConfig.useSecureSmtp()) {
-			protocol = "smtps";
-		}
-
 		SMTPTransport smtpTransport = (SMTPTransport) getSession()
-				.getTransport(protocol);
+				.getTransport(getProtocol());
 		if (emailTransportConfig.isAuthenticationRequired()) {
 			smtpTransport.connect(emailTransportConfig.getSmtpServer(),
 					emailTransportConfig.getUsername(), emailTransportConfig
@@ -74,5 +78,13 @@ public class PostalService {
 		}
 		smtpTransport.sendMessage(message, message.getAllRecipients());
 		smtpTransport.close();
+	}
+
+	protected String getProtocol() {
+		String protocol = "smtp";
+		if (emailTransportConfig.useSecureSmtp()) {
+			protocol = "smtps";
+		}
+		return protocol;
 	}
 }

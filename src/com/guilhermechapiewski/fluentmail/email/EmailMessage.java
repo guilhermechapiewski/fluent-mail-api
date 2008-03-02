@@ -16,6 +16,8 @@ public class EmailMessage implements EmailBuilder, Email {
 
 	private String fromAddress;
 	private Set<String> toAddresses = new HashSet<String>();
+	private Set<String> ccAddresses = new HashSet<String>();
+	private Set<String> bccAddresses = new HashSet<String>();
 	private String subject;
 	private String body;
 
@@ -64,6 +66,18 @@ public class EmailMessage implements EmailBuilder, Email {
 	}
 
 	@Override
+	public EmailBuilder cc(String address) {
+		this.ccAddresses.add(address);
+		return this;
+	}
+
+	@Override
+	public EmailBuilder bcc(String address) {
+		this.bccAddresses.add(address);
+		return this;
+	}
+
+	@Override
 	public EmailBuilder withSubject(String subject) {
 		this.subject = subject;
 		return this;
@@ -81,6 +95,14 @@ public class EmailMessage implements EmailBuilder, Email {
 
 	public Set<String> getToAddresses() {
 		return toAddresses;
+	}
+
+	public Set<String> getCcAddresses() {
+		return ccAddresses;
+	}
+
+	public Set<String> getBccAddresses() {
+		return bccAddresses;
 	}
 
 	public String getSubject() {

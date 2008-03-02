@@ -8,9 +8,9 @@ public interface Email {
 	
 	Set<String> getToAddresses();
 	
-	// Set<String> getCcAddresses();
+	Set<String> getCcAddresses();
 	
-	// Set<String> getBccAddresses();
+	Set<String> getBccAddresses();
 	
 	String getSubject();
 	
