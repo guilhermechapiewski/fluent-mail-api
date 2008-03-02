@@ -1,9 +1,15 @@
 <project name="FluentMailAPI" default="main" basedir=".">
 	
-	<target name="main" depends="clean, setup, compile, compile-tests, run-tests, generate-dist-jar, clean" />
+	<target name="main" depends="clean, setup, compile, compile-tests, run-tests, generate-dist-jar, post-clean" />
 	
 	<target name="clean">
-		<echo message="Cleaning temp directory" />
+		<echo message="Cleaning directories" />
+		<delete dir="temp" />
+		<delete dir="dist" />
+	</target>
+	
+	<target name="post-clean">
+		<echo message="Cleaning unused" />
 		<delete dir="temp" />
 	</target>
 	
