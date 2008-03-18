@@ -21,7 +21,6 @@ public class EmailMessage implements EmailBuilder, Email {
 	private String subject;
 	private String body;
 
-	@Override
 	public void send() {
 		validateRequiredInfo();
 		validateAddresses();
@@ -53,37 +52,31 @@ public class EmailMessage implements EmailBuilder, Email {
 		}
 	}
 
-	@Override
 	public EmailBuilder from(String address) {
 		this.fromAddress = address;
 		return this;
 	}
 
-	@Override
 	public EmailBuilder to(String address) {
 		this.toAddresses.add(address);
 		return this;
 	}
 
-	@Override
 	public EmailBuilder cc(String address) {
 		this.ccAddresses.add(address);
 		return this;
 	}
 
-	@Override
 	public EmailBuilder bcc(String address) {
 		this.bccAddresses.add(address);
 		return this;
 	}
 
-	@Override
 	public EmailBuilder withSubject(String subject) {
 		this.subject = subject;
 		return this;
 	}
 
-	@Override
 	public EmailBuilder withBody(String body) {
 		this.body = body;
 		return this;
