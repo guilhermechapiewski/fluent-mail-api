@@ -31,7 +31,7 @@ public class EmailMessageTest {
 		EmailMessage.setEmailAddressValidator(new EmailAddressValidator());
 		EmailMessage.setPostalService(new PostalService());
 	}
-	
+
 	@Test
 	public void should_send_mail_when_parameters_are_correct() {
 
@@ -63,6 +63,24 @@ public class EmailMessageTest {
 	public void should_allow_many_tos() {
 		EmailMessage email = (EmailMessage) new EmailMessage().to("a@a.com")
 				.to("b@b.com").to("c@c.com");
+
+		Set<String> addresses = email.getToAddresses();
+
+		assertNotNull("Addresses should not be null", addresses);
+		assertEquals("Should have the correct froms quantity", 3, addresses
+				.size());
+		assertTrue("Should contain the specified address", addresses
+				.contains("a@a.com"));
+		assertTrue("Should contain the specified address", addresses
+				.contains("b@b.com"));
+		assertTrue("Should contain the specified address", addresses
+				.contains("c@c.com"));
+	}
+
+	@Test
+	public void should_allow_many_tos_in_the_same_method() {
+		EmailMessage email = (EmailMessage) new EmailMessage().to("a@a.com",
+				"b@b.com", "c@c.com");
 
 		Set<String> addresses = email.getToAddresses();
 
@@ -110,6 +128,24 @@ public class EmailMessageTest {
 	}
 
 	@Test
+	public void should_allow_many_ccs_in_the_same_method() {
+		EmailMessage email = (EmailMessage) new EmailMessage().cc("a@a.com",
+				"b@b.com", "c@c.com");
+
+		Set<String> addresses = email.getCcAddresses();
+
+		assertNotNull("Addresses should not be null", addresses);
+		assertEquals("Should have the correct froms quantity", 3, addresses
+				.size());
+		assertTrue("Should contain the specified address", addresses
+				.contains("a@a.com"));
+		assertTrue("Should contain the specified address", addresses
+				.contains("b@b.com"));
+		assertTrue("Should contain the specified address", addresses
+				.contains("c@c.com"));
+	}
+
+	@Test
 	public void should_ignore_repeated_ccs() {
 		EmailMessage email = (EmailMessage) new EmailMessage().cc("a@a.com")
 				.cc("a@a.com").cc("a@a.com");
@@ -127,6 +163,24 @@ public class EmailMessageTest {
 	public void should_allow_many_bccs() {
 		EmailMessage email = (EmailMessage) new EmailMessage().bcc("a@a.com")
 				.bcc("b@b.com").bcc("c@c.com");
+
+		Set<String> addresses = email.getBccAddresses();
+
+		assertNotNull("Addresses should not be null", addresses);
+		assertEquals("Should have the correct froms quantity", 3, addresses
+				.size());
+		assertTrue("Should contain the specified address", addresses
+				.contains("a@a.com"));
+		assertTrue("Should contain the specified address", addresses
+				.contains("b@b.com"));
+		assertTrue("Should contain the specified address", addresses
+				.contains("c@c.com"));
+	}
+
+	@Test
+	public void should_allow_many_bccs_in_the_same_method() {
+		EmailMessage email = (EmailMessage) new EmailMessage().bcc("a@a.com",
+				"b@b.com", "c@c.com");
 
 		Set<String> addresses = email.getBccAddresses();
 

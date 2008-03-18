@@ -4,11 +4,11 @@ public interface EmailBuilder {
 
 	EmailBuilder from(String address);
 
-	EmailBuilder to(String address);
+	EmailBuilder to(String... addresses);
 
-	EmailBuilder cc(String address);
+	EmailBuilder cc(String... addresses);
 
-	EmailBuilder bcc(String address);
+	EmailBuilder bcc(String... addresses);
 
 	EmailBuilder withSubject(String subject);
 

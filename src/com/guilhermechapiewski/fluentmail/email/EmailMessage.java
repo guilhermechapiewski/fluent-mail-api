@@ -57,18 +57,24 @@ public class EmailMessage implements EmailBuilder, Email {
 		return this;
 	}
 
-	public EmailBuilder to(String address) {
-		this.toAddresses.add(address);
+	public EmailBuilder to(String... addresses) {
+		for (int i = 0; i < addresses.length; i++) {
+			this.toAddresses.add(addresses[i]);
+		}
 		return this;
 	}
 
-	public EmailBuilder cc(String address) {
-		this.ccAddresses.add(address);
+	public EmailBuilder cc(String... addresses) {
+		for (int i = 0; i < addresses.length; i++) {
+			this.ccAddresses.add(addresses[i]);
+		}
 		return this;
 	}
 
-	public EmailBuilder bcc(String address) {
-		this.bccAddresses.add(address);
+	public EmailBuilder bcc(String... addresses) {
+		for (int i = 0; i < addresses.length; i++) {
+			this.bccAddresses.add(addresses[i]);
+		}
 		return this;
 	}
 
