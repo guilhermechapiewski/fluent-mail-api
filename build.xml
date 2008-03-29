@@ -1,5 +1,7 @@
 <project name="FluentMailAPI" default="main" basedir=".">
 	
+	<property file="build.properties" />
+	
 	<target name="main" depends="clean, setup, compile, compile-tests, run-tests, generate-dist-jar, post-clean" />
 	
 	<target name="clean">
@@ -72,7 +74,7 @@
 	
 	<target name="generate-dist-jar" depends="compile">
 		<echo message="Generating jar" />
-		<jar destfile="dist/fluent-mail-api.jar">
+		<jar destfile="dist/${project.jar.name}">
 			<fileset dir="temp/classes">
 				<include name="**/*.class"/>
 			</fileset>
