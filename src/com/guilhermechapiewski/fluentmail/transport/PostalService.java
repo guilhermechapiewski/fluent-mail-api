@@ -3,13 +3,18 @@ package com.guilhermechapiewski.fluentmail.transport;
 import java.util.Calendar;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import com.guilhermechapiewski.fluentmail.email.Email;
 import com.sun.mail.smtp.SMTPTransport;
@@ -39,8 +44,15 @@ public class PostalService {
 	}
 
 	protected Message createMessage(Email email) throws MessagingException {
-		Message message = new MimeMessage(getSession());
+	    
+        MimeBodyPart mimeText = new MimeBodyPart();
+        mimeText.setText(email.getBody());
+        
+ 	   	Message message = new MimeMessage(getSession());
 		message.setFrom(new InternetAddress(email.getFromAddress()));
+		
+		Multipart mp = new MimeMultipart();
+		mp.addBodyPart(mimeText);
 
 		for (String to : email.getToAddresses()) {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress
@@ -56,9 +68,19 @@ public class PostalService {
 			message.setRecipients(Message.RecipientType.BCC, InternetAddress
 					.parse(bcc));
 		}
+		
+		
+		for(String attachment: email.getAttachments()){
+    	     MimeBodyPart mb = new MimeBodyPart();
+  	         FileDataSource fds = new FileDataSource(attachment);
+  	         mb.setDataHandler(new DataHandler(fds));
+  	         mb.setFileName(fds.getName());
+  	         mp.addBodyPart(mb);
+		}
 
+		
+		message.setContent(mp);
 		message.setSubject(email.getSubject());
-		message.setText(email.getBody());
 		message.setHeader("X-Mailer", "Fluent Mail API");
 		message.setSentDate(Calendar.getInstance().getTime());
 

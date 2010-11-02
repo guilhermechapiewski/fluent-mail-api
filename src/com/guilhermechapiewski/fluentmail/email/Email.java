@@ -12,6 +12,8 @@ public interface Email {
 	
 	Set<String> getBccAddresses();
 	
+	Set<String> getAttachments();
+	
 	String getSubject();
 	
 	String getBody();

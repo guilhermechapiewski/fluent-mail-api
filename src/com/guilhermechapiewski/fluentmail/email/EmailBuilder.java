@@ -13,6 +13,8 @@ public interface EmailBuilder {
 	EmailBuilder withSubject(String subject);
 
 	EmailBuilder withBody(String body);
+	
+	EmailBuilder withAttachment(String... attachments);
 
 	void send();
 }

@@ -208,7 +208,43 @@ public class EmailMessageTest {
 		assertTrue("Should contain the specified address", addresses
 				.contains("a@a.com"));
 	}
-
+	
+	@Test
+	public void should_allow_many_attachments(){
+		EmailMessage email = (EmailMessage) new EmailMessage().withAttachment("C:\\java.png")
+			  .withAttachment("/home/danielbussade/teste.txt").withAttachment("C:\\teste.pdf");
+		
+		Set<String> attachments = email.getAttachments();
+		assertNotNull("Attachments should be null",attachments);
+		assertEquals("Should have the correct froms quantity", 3, attachments
+				.size());
+		assertTrue("Should contain the specified attachments", attachments
+				.contains("C:\\java.png"));
+		assertTrue("Should contain the specified attachments", attachments
+				.contains("/home/danielbussade/teste.txt"));
+		assertTrue("Should contain the specified attachments", attachments
+				.contains("C:\\teste.pdf"));
+		
+	}
+	
+	@Test
+	public void should_allow_many_attachments_in_the_same_method(){
+		EmailMessage email = (EmailMessage) new EmailMessage().withAttachment("C:\\java.png",
+				"/home/danielbussade/teste.txt","C:\\teste.pdf");
+		
+		Set<String> attachments = email.getAttachments();
+		assertNotNull("Attachments should be null",attachments);
+		assertEquals("Should have the correct froms quantity", 3, attachments
+				.size());
+		assertTrue("Should contain the specified attachments", attachments
+				.contains("C:\\java.png"));
+		assertTrue("Should contain the specified attachments", attachments
+				.contains("/home/danielbussade/teste.txt"));
+		assertTrue("Should contain the specified attachments", attachments
+				.contains("C:\\teste.pdf"));
+		
+	}
+	
 	@Test
 	public void should_require_minimum_info_to_send_message() throws Exception {
 		final PostalService postalService = context.mock(PostalService.class);
