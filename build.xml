@@ -74,7 +74,7 @@
 	
 	<target name="generate-dist-jar" depends="compile">
 		<echo message="Generating jar" />
-		<jar destfile="dist/${project.jar.name}">
+		<jar destfile="builds/${project.jar.name}">
 			<fileset dir="temp/classes">
 				<include name="**/*.class"/>
 			</fileset>
