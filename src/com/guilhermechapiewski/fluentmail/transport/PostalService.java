@@ -44,15 +44,14 @@ public class PostalService {
 	}
 
 	protected Message createMessage(Email email) throws MessagingException {
-	    
-        MimeBodyPart mimeText = new MimeBodyPart();
-        mimeText.setText(email.getBody());
-        
- 	   	Message message = new MimeMessage(getSession());
-		message.setFrom(new InternetAddress(email.getFromAddress()));
+		Multipart multipart = new MimeMultipart();
 		
-		Multipart mp = new MimeMultipart();
-		mp.addBodyPart(mimeText);
+		MimeBodyPart mimeText = new MimeBodyPart();
+		mimeText.setText(email.getBody());
+		multipart.addBodyPart(mimeText);
+
+		Message message = new MimeMessage(getSession());
+		message.setFrom(new InternetAddress(email.getFromAddress()));
 
 		for (String to : email.getToAddresses()) {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress
@@ -68,18 +67,16 @@ public class PostalService {
 			message.setRecipients(Message.RecipientType.BCC, InternetAddress
 					.parse(bcc));
 		}
-		
-		
-		for(String attachment: email.getAttachments()){
-    	     MimeBodyPart mb = new MimeBodyPart();
-  	         FileDataSource fds = new FileDataSource(attachment);
-  	         mb.setDataHandler(new DataHandler(fds));
-  	         mb.setFileName(fds.getName());
-  	         mp.addBodyPart(mb);
+
+		for (String attachment : email.getAttachments()) {
+			MimeBodyPart mimeAttachment = new MimeBodyPart();
+			FileDataSource fds = new FileDataSource(attachment);
+			mimeAttachment.setDataHandler(new DataHandler(fds));
+			mimeAttachment.setFileName(fds.getName());
+			multipart.addBodyPart(mimeAttachment);
 		}
 
-		
-		message.setContent(mp);
+		message.setContent(multipart);
 		message.setSubject(email.getSubject());
 		message.setHeader("X-Mailer", "Fluent Mail API");
 		message.setSentDate(Calendar.getInstance().getTime());

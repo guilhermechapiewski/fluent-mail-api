@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.mail.Message;
 import javax.mail.Session;
+import javax.mail.internet.MimeMultipart;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -89,6 +90,9 @@ public class PostalServiceTest {
 
 				one(email).getSubject();
 				will(returnValue(subject));
+				
+				one(email).getAttachments();
+				will(returnValue(new HashSet<String>()));
 
 				one(email).getBody();
 				will(returnValue(body));
@@ -106,7 +110,9 @@ public class PostalServiceTest {
 		assertEquals(bcc, message.getRecipients(Message.RecipientType.BCC)[0]
 				.toString());
 		assertEquals(subject, message.getSubject());
-		assertEquals(body, message.getContent());
+		
+		MimeMultipart mimeContent = (MimeMultipart)message.getContent();
+		assertEquals(body, mimeContent.getBodyPart(0).getContent());
 	}
 
 	@Test
