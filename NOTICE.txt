@@ -1,0 +1,8 @@
+The Fluent Mail API is developed by:
+
+   Guilherme Chapiewski (http://guilhermechapiewski.com)
+   Contact: guilherme.chapiewski at gmail.com
+   Project Website: http://github.com/guilhermechapiewski/fluent-mail-api
+
+This software is distributed for free, under Apache License version 2.0.
+See LICENSE.txt for more details.
