@@ -72,7 +72,7 @@ h1. Features
   * Send email to, cc or bcc multiple addresses.
   * SMTP authentication support.
   * Secure SMTP support.
-  * Send e-mail with attachments.
+  * Send e-mail with attachments. (contribution by "danielbussade":https://github.com/danielbussade)
 
 h1. License
 
