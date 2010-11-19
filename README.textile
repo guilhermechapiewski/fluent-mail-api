@@ -40,11 +40,11 @@ transport.sendMessage(newMessage, _toList);</pre>
 
 h1. 20 second tutorial
 
-h2. Get the JARs
+h2. 1) Get the JARs
 
 Go to Downloads page and download the latest fluent-mail-api.jar and mail.jar. You can also download mail.jar from JavaMail API website.
 
-h2. Configuration
+h2. 2) Configuration
 
 You can configure Fluent Mail API in two ways:
 
@@ -62,7 +62,7 @@ Configure it programatically in your application startup:
 
 <pre>EmailTransportConfiguration.configure("my.smtp.server.com", true, false, "gc", "mypasswd");</pre>
 
-h2. That's it!
+h2. 3) That's it!
 
 You are ready to start using the API!
 
@@ -73,7 +73,7 @@ h1. Features
   * SMTP authentication support.
   * Secure SMTP support.
   * Send e-mail with attachments.
-    
-h2. Other questions
 
-Mail me at "guilherme.chapiewski at gmail.com" for further questions.
+h1. License
+
+*Fluent Mail API* is free software licensed under the "Apache 2.0 License":http://www.apache.org/licenses/. For more details, check "LICENSE.txt":https://github.com/guilhermechapiewski/fluent-mail-api/raw/master/LICENSE.txt.
