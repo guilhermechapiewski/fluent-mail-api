@@ -1,42 +1,42 @@
 h1. About
 
-Fluent Mail API is a simple Java API that uses Sun's JavaMail API to send e-mail messages. This is a project to demonstrate Fluent Interfaces usage.
+*Fluent Mail API* is a simple Java API that uses Sun's JavaMail API to send e-mail messages. This is a project to demonstrate Fluent Interfaces usage.
 
 The API is designed to be simple and fluent, providing an internal DSL to send e-mail messages.
 
 h1. Usage example
 
-    new EmailMessage()
-        .from("demo@guilhermechapiewski.com")
-        .to("destination@address.com")
-        .withSubject("Fluent Mail API")
-        .withBody("Demo message")
-        .send();
+<pre>new EmailMessage()
+    .from("demo@guilhermechapiewski.com")
+    .to("destination@address.com")
+    .withSubject("Fluent Mail API")
+    .withBody("Demo message")
+    .send();</pre>
 
-h2. Comparison to JavaMail API
+h2. Comparison with JavaMail API
 
 If you use pure JavaMail API, it will be something like this (from Java World tutorial):
 
-    // create some properties and get the default Session
-    Properties props = new Properties();
-    props.put("mail.smtp.host", _smtpHost);
-    Session session = Session.getDefaultInstance(props, null);
-    // create a message
-    Address replyToList[] = { new InternetAddress(replyTo) };
-    Message newMessage = new MimeMessage(session);
-    if (_fromName != null)
-        newMessage.setFrom(new InternetAddress(from,
-            _fromName + " on behalf of " + replyTo));
-    else
-        newMessage.setFrom(new InternetAddress(from));
-        newMessage.setReplyTo(replyToList);
-        newMessage.setRecipients(Message.RecipientType.BCC, _toList);
-        newMessage.setSubject(subject);
-        newMessage.setSentDate(sentDate);
-    // send newMessage
-    Transport transport = session.getTransport(SMTP_MAIL);
-    transport.connect(_smtpHost, _user, _password);
-    transport.sendMessage(newMessage, _toList);
+<pre>// create some properties and get the default Session
+Properties props = new Properties();
+props.put("mail.smtp.host", _smtpHost);
+Session session = Session.getDefaultInstance(props, null);
+// create a message
+Address replyToList[] = { new InternetAddress(replyTo) };
+Message newMessage = new MimeMessage(session);
+if (_fromName != null)
+    newMessage.setFrom(new InternetAddress(from,
+        _fromName + " on behalf of " + replyTo));
+else
+    newMessage.setFrom(new InternetAddress(from));
+    newMessage.setReplyTo(replyToList);
+    newMessage.setRecipients(Message.RecipientType.BCC, _toList);
+    newMessage.setSubject(subject);
+    newMessage.setSentDate(sentDate);
+// send newMessage
+Transport transport = session.getTransport(SMTP_MAIL);
+transport.connect(_smtpHost, _user, _password);
+transport.sendMessage(newMessage, _toList);</pre>
 
 h1. 20 second tutorial
 
@@ -48,19 +48,19 @@ h2. Configuration
 
 You can configure Fluent Mail API in two ways:
 
-Create a simple fluent-mail-api.properties file and make it available in the classpath. Example:
+Create a simple *fluent-mail-api.properties* file and make it available in the classpath. Example:
 
-    smtp.server=my.smtp.server.com
-    auth.required=true
-    use.secure.smtp=false
-    smtp.username=gc
-    smtp.password=mypasswd
+<pre>smtp.server=my.smtp.server.com
+auth.required=true
+use.secure.smtp=false
+smtp.username=gc
+smtp.password=mypasswd</pre>
 
 OR
 
 Configure it programatically in your application startup:
 
-    EmailTransportConfiguration.configure("my.smtp.server.com", true, false, "gc", "mypasswd");
+<pre>EmailTransportConfiguration.configure("my.smtp.server.com", true, false, "gc", "mypasswd");</pre>
 
 h2. That's it!
 
@@ -68,15 +68,11 @@ You are ready to start using the API!
 
 h1. Features
 
-    * Really simple to use API.
-    * Send email to, cc or bcc multiple addresses.
-    * SMTP authentication support.
-    * Secure SMTP support. 
-
-h1. Upcoming features
-
-    * Possibility to send e-mail with attachments.
-    * Send me a message to request other features :)
+  * Really simple to use API.
+  * Send email to, cc or bcc multiple addresses.
+  * SMTP authentication support.
+  * Secure SMTP support.
+  * Send e-mail with attachments.
     
 h2. Other questions
 
