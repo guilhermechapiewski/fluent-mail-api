@@ -1,8 +1,8 @@
 h1. About
 
-*Fluent Mail API* is a simple Java API that uses Sun's JavaMail API to send e-mail messages. This is a project to demonstrate Fluent Interfaces usage.
+*Fluent Mail API* is a simple Java API that uses Sun's "JavaMail API":http://java.sun.com/products/javamail/ to send e-mail messages.
 
-The API is designed to be simple and fluent, providing an internal DSL to send e-mail messages.
+This is a project to demonstrate "Fluent Interfaces":http://martinfowler.com/bliki/FluentInterface.html usage, although it's fully functional and production-ready. The API consists in an internal DSL to send e-mail messages that was designed to be dead-simple to use.
 
 h1. Usage example
 
@@ -15,7 +15,7 @@ h1. Usage example
 
 h2. Comparison with JavaMail API
 
-If you use pure JavaMail API, it will be something like this (from Java World tutorial):
+If you use pure "JavaMail API":http://java.sun.com/products/javamail/, it will be something like this (from "Java World tutorial":http://www.javaworld.com/javaworld/jw-06-1999/jw-06-javamail.html?page=4):
 
 <pre>// create some properties and get the default Session
 Properties props = new Properties();
@@ -42,7 +42,7 @@ h1. 20 second tutorial
 
 h2. 1) Get the JARs
 
-Go to Downloads page and download the latest fluent-mail-api.jar and mail.jar. You can also download mail.jar from JavaMail API website.
+Download the latest "fluent-mail-api.jar":https://github.com/guilhermechapiewski/fluent-mail-api/raw/master/builds/fluent-mail-api-0.1.32.jar and "mail.jar":https://github.com/guilhermechapiewski/fluent-mail-api/raw/master/lib/mail.jar. You can also download mail.jar from "JavaMail API":http://java.sun.com/products/javamail/ website.
 
 h2. 2) Configuration
 
