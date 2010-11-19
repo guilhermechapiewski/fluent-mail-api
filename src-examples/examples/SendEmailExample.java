@@ -15,7 +15,9 @@ public class SendEmailExample {
 
 		// and go!
 		new EmailMessage().from("demo@guilhermechapiewski.com").to(yourAddress)
-				.withSubject("Fluent Mail API").withBody("Demo message").send();
+				.withSubject("Fluent Mail API")
+				.withAttachment("file_name")
+				.withBody("Demo message").send();
 
 		System.out.println("Check your inbox!");
 

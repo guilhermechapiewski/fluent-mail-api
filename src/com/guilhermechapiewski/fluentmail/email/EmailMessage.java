@@ -18,6 +18,7 @@ public class EmailMessage implements EmailBuilder, Email {
 	private Set<String> toAddresses = new HashSet<String>();
 	private Set<String> ccAddresses = new HashSet<String>();
 	private Set<String> bccAddresses = new HashSet<String>();
+	private Set<String> attachments = new HashSet<String>();
 	private String subject;
 	private String body;
 
@@ -87,6 +88,13 @@ public class EmailMessage implements EmailBuilder, Email {
 		this.body = body;
 		return this;
 	}
+	
+	public EmailBuilder withAttachment(String... attachments) {
+ 		for (int i = 0; i < attachments.length; i++) {
+			this.attachments.add(attachments[i]);
+		}
+		return this;
+	}
 
 	public String getFromAddress() {
 		return fromAddress;
@@ -102,6 +110,10 @@ public class EmailMessage implements EmailBuilder, Email {
 
 	public Set<String> getBccAddresses() {
 		return bccAddresses;
+	}
+	
+	public Set<String> getAttachments() {
+		return attachments;
 	}
 
 	public String getSubject() {
@@ -134,4 +146,7 @@ public class EmailMessage implements EmailBuilder, Email {
 	public static void setPostalService(PostalService postalService) {
 		EmailMessage.postalService = postalService;
 	}
+
+
+	
 }
