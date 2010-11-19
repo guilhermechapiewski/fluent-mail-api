@@ -42,7 +42,7 @@ h1. 20 second tutorial
 
 h2. 1) Get the JARs
 
-Download the latest "fluent-mail-api.jar":https://github.com/guilhermechapiewski/fluent-mail-api/raw/master/builds/fluent-mail-api-1.0.1.jar and "mail.jar":https://github.com/guilhermechapiewski/fluent-mail-api/raw/master/lib/mail.jar. You can also download mail.jar from "JavaMail API":http://java.sun.com/products/javamail/ website.
+Download the latest "fluent-mail-api.jar":https://github.com/guilhermechapiewski/fluent-mail-api/raw/master/builds/fluent-mail-api-1.0.1.jar (check all the releases available at the "builds":https://github.com/guilhermechapiewski/fluent-mail-api/tree/master/builds/ directory) and "mail.jar":https://github.com/guilhermechapiewski/fluent-mail-api/raw/master/lib/mail.jar. You can also download mail.jar from "JavaMail API":http://java.sun.com/products/javamail/ website.
 
 h2. 2) Configuration
 
