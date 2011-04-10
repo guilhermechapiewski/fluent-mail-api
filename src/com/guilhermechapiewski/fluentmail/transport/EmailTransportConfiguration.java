@@ -22,9 +22,8 @@ public class EmailTransportConfiguration {
 		Properties properties = loadProperties();
 
 		String smtpServer = properties.getProperty(KEY_SMTP_SERVER);
-		boolean authenticationRequired = Boolean
-				.parseBoolean(KEY_AUTH_REQUIRED);
-		boolean useSecureSmtp = Boolean.parseBoolean(KEY_USE_SECURE_SMTP);
+		boolean authenticationRequired = Boolean.parseBoolean(properties.getProperty(KEY_AUTH_REQUIRED));
+		boolean useSecureSmtp = Boolean.parseBoolean(properties.getProperty(KEY_USE_SECURE_SMTP));
 		String username = properties.getProperty(KEY_USERNAME);
 		String password = properties.getProperty(KEY_PASSWORD);
 
