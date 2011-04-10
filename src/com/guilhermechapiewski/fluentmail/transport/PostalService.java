@@ -45,7 +45,9 @@ public class PostalService {
 		Multipart multipart = new MimeMultipart();
 		
 		MimeBodyPart mimeText = new MimeBodyPart();
-		mimeText.setText(email.getBody());
+		mimeText.setText(email.getBody(), "utf-8");
+		mimeText.setHeader("Content-Type","text/plain; charset=\"utf-8\"");
+		mimeText.setHeader("Content-Transfer-Encoding", "quoted-printable");
 		multipart.addBodyPart(mimeText);
 
 		Message message = new MimeMessage(getSession());
