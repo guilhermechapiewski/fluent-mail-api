@@ -53,6 +53,8 @@ Create a simple *fluent-mail-api.properties* file and make it available in the c
 <pre>smtp.server=my.smtp.server.com
 auth.required=true
 use.secure.smtp=false
+smtp.starttls=false	# true if you user Gmail
+smtp.port=25
 smtp.username=gc
 smtp.password=mypasswd</pre>
 
@@ -60,7 +62,7 @@ OR
 
 Configure it programatically in your application startup:
 
-<pre>EmailTransportConfiguration.configure("my.smtp.server.com", true, false, "gc", "mypasswd");</pre>
+<pre>EmailTransportConfiguration.configure("my.smtp.server.com", true, false, false, 25, "gc", "mypasswd");</pre>
 
 h2. 3) That's it!
 

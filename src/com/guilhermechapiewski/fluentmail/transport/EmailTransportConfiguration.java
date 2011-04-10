@@ -11,12 +11,17 @@ public class EmailTransportConfiguration {
 	private static final String KEY_USE_SECURE_SMTP = "use.secure.smtp";
 	private static final String KEY_USERNAME = "smtp.username";
 	private static final String KEY_PASSWORD = "smtp.password";
+	private static final String KEY_STARTTTLS = "smtp.starttls";
+	private static final String KEY_PORT = "smtp.port";
 
 	private static String smtpServer = "";
 	private static boolean authenticationRequired = false;
 	private static boolean useSecureSmtp = false;
+	private static boolean starttls = false;
+	private static Integer port = 25;
 	private static String username = null;
 	private static String password = null;
+	
 
 	static {
 		Properties properties = loadProperties();
@@ -24,11 +29,13 @@ public class EmailTransportConfiguration {
 		String smtpServer = properties.getProperty(KEY_SMTP_SERVER);
 		boolean authenticationRequired = Boolean.parseBoolean(properties.getProperty(KEY_AUTH_REQUIRED));
 		boolean useSecureSmtp = Boolean.parseBoolean(properties.getProperty(KEY_USE_SECURE_SMTP));
+		boolean starttls = Boolean.parseBoolean(properties.getProperty(KEY_STARTTTLS));
+		String portNumber = properties.getProperty(KEY_PORT);
+		Integer port = ( portNumber == null || "".equals(portNumber) ) ? 25 : Integer.parseInt(portNumber);
 		String username = properties.getProperty(KEY_USERNAME);
 		String password = properties.getProperty(KEY_PASSWORD);
 
-		configure(smtpServer, authenticationRequired, useSecureSmtp, username,
-				password);
+		configure(smtpServer, authenticationRequired, useSecureSmtp, starttls, port, username, password);
 	}
 	
 	private static Properties loadProperties() {
@@ -61,7 +68,7 @@ public class EmailTransportConfiguration {
 	 *            port, user the syntax server:port.
 	 */
 	public static void configure(String smtpServer) {
-		configure(smtpServer, false, false, null, null);
+		configure(smtpServer, false, false, false, 25, null, null);
 	}
 
 	/**
@@ -73,6 +80,10 @@ public class EmailTransportConfiguration {
 	 *            or not.
 	 * @param useSecureSmtp
 	 *            Use secure SMTP to send messages.
+	 * @param starttls
+	 * 			  Use starttls ( required from Gmail ).
+	 * @param port
+	 * 			  The SMTP port number.    
 	 * @param username
 	 *            The SMTP username.
 	 * @param password
@@ -80,14 +91,17 @@ public class EmailTransportConfiguration {
 	 */
 	public static void configure(String smtpServer,
 			boolean authenticationRequired, boolean useSecureSmtp,
+			boolean starttls, Integer port,
 			String username, String password) {
 		EmailTransportConfiguration.smtpServer = smtpServer;
 		EmailTransportConfiguration.authenticationRequired = authenticationRequired;
 		EmailTransportConfiguration.useSecureSmtp = useSecureSmtp;
+		EmailTransportConfiguration.starttls = starttls;
+		EmailTransportConfiguration.port = port;
 		EmailTransportConfiguration.username = username;
 		EmailTransportConfiguration.password = password;
 	}
-
+	
 	public String getSmtpServer() {
 		return smtpServer;
 	}
@@ -106,6 +120,14 @@ public class EmailTransportConfiguration {
 
 	public boolean useSecureSmtp() {
 		return useSecureSmtp;
+	}
+
+	public boolean useStarttls() {
+		return starttls;
+	}
+
+	public Integer getPort() {
+		return port;
 	}
 
 }

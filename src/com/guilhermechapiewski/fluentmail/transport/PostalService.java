@@ -32,14 +32,12 @@ public class PostalService {
 	protected Session getSession() {
 		if (session == null) {
 			Properties properties = System.getProperties();
-			properties.put("mail.smtp.host", emailTransportConfig
-					.getSmtpServer());
-			properties.put("mail.smtp.auth", emailTransportConfig
-					.isAuthenticationRequired());
-
+			properties.put("mail.smtp.host", emailTransportConfig.getSmtpServer());
+			properties.put("mail.smtp.auth", emailTransportConfig.isAuthenticationRequired());
+			properties.put("mail.smtp.starttls.enable", emailTransportConfig.useStarttls());
+			properties.put("mail.smtp.port", emailTransportConfig.getPort());
 			session = Session.getInstance(properties);
 		}
-
 		return session;
 	}
 
