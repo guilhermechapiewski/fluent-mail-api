@@ -10,8 +10,7 @@ public class SendEmailExample {
 		final String yourAddress = "guilherme.chapiewski@gmail.com";
 
 		// configure programatically your mail server info
-		EmailTransportConfiguration.configure("smtp.server.com", true,
-				false, "username", "password");
+		EmailTransportConfiguration.configure("smtp.server.com", true, false, true, 597, "username", "password");
 
 		// and go!
 		new EmailMessage().from("demo@guilhermechapiewski.com").to(yourAddress)

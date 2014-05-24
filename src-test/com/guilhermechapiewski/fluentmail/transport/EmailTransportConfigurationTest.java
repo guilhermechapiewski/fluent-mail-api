@@ -13,11 +13,13 @@ public class EmailTransportConfigurationTest {
 		String smtpServer = "smtp.server.com";
 		boolean authenticationRequired = true;
 		boolean useSecureSmtp = false;
+		boolean starttls = true;
+		Integer port = 25;
 		String username = "john";
 		String password = "doe";
 
-		EmailTransportConfiguration.configure(smtpServer,
-				authenticationRequired, useSecureSmtp, username, password);
+		EmailTransportConfiguration.configure(smtpServer, authenticationRequired, useSecureSmtp, 
+				starttls, port, username, password);
 
 		assertEquals("Should configure smtp server correctly", smtpServer,
 				config.getSmtpServer());

@@ -24,6 +24,8 @@ public class PostalServiceTest {
 	static String SMTP_SERVER = "smtp.server.com";
 	static boolean AUTH_REQUIRED = true;
 	static boolean USE_SECURE_SMTP = false;
+	static boolean USE_STARTTLS = false;
+	static Integer PORT = 25;
 	static String USERNAME = "john";
 	static String PASSWORD = "doe";
 
@@ -32,7 +34,7 @@ public class PostalServiceTest {
 	@BeforeClass
 	public static void setup() {
 		EmailTransportConfiguration.configure(SMTP_SERVER, AUTH_REQUIRED,
-				USE_SECURE_SMTP, USERNAME, PASSWORD);
+				USE_SECURE_SMTP, USE_STARTTLS, PORT, USERNAME, PASSWORD);
 	}
 
 	@Test
@@ -40,13 +42,13 @@ public class PostalServiceTest {
 		PostalService postalService = new PostalService();
 
 		EmailTransportConfiguration.configure(SMTP_SERVER, AUTH_REQUIRED,
-				false, USERNAME, PASSWORD);
+				false, USE_SECURE_SMTP, PORT, USERNAME, PASSWORD);
 
 		assertEquals("Should use SMTP protocol", "smtp", postalService
 				.getProtocol());
 
 		EmailTransportConfiguration.configure(SMTP_SERVER, AUTH_REQUIRED, true,
-				USERNAME, PASSWORD);
+				USE_STARTTLS, PORT, USERNAME, PASSWORD);
 
 		assertEquals("Should use Secure SMTP protocol", "smtps", postalService
 				.getProtocol());
@@ -118,7 +120,7 @@ public class PostalServiceTest {
 	@Test
 	public void should_get_session_with_correct_config() {
 		EmailTransportConfiguration.configure(SMTP_SERVER, AUTH_REQUIRED,
-				USE_SECURE_SMTP, USERNAME, PASSWORD);
+				USE_SECURE_SMTP, USE_STARTTLS, PORT, USERNAME, PASSWORD);
 
 		PostalService postalService = new PostalService();
 		Session session = postalService.getSession();
