@@ -54,17 +54,17 @@ public class PostalService {
 		message.setFrom(new InternetAddress(email.getFromAddress()));
 
 		for (String to : email.getToAddresses()) {
-			message.setRecipients(Message.RecipientType.TO, InternetAddress
+			message.addRecipients(Message.RecipientType.TO, InternetAddress
 					.parse(to));
 		}
 
 		for (String cc : email.getCcAddresses()) {
-			message.setRecipients(Message.RecipientType.CC, InternetAddress
+			message.addRecipients(Message.RecipientType.CC, InternetAddress
 					.parse(cc));
 		}
 
 		for (String bcc : email.getBccAddresses()) {
-			message.setRecipients(Message.RecipientType.BCC, InternetAddress
+			message.addRecipients(Message.RecipientType.BCC, InternetAddress
 					.parse(bcc));
 		}
 
